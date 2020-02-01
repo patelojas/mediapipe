@@ -7,6 +7,7 @@ input_stream: "NORM_RECT:hand_rect"
 output_stream: "LANDMARKS:hand_landmarks"
 output_stream: "NORM_RECT:hand_rect_for_next_frame"
 output_stream: "PRESENCE:hand_presence"
+output_stream: "RECOGNIZED_HAND_GESTURE:recognized_hand_gesture"
 
 # Crops the rectangle that contains a hand from the input image.
 node {
@@ -188,4 +189,5 @@ node {
   calculator: "HandGestureRecognitionCalculator"
   input_stream: "NORM_LANDMARKS:scaled_landmarks"
   input_stream: "NORM_RECT:hand_rect_for_next_frame"
+  output_stream: "RECOGNIZED_HAND_GESTURE:recognized_hand_gesture"
 }
