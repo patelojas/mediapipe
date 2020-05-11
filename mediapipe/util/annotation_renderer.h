@@ -71,7 +71,7 @@ class AnnotationRenderer {
   // corner.
   void SetFlipTextVertically(bool flip);
 
-  void DrawText(std::string text);
+  void DrawText(std::string text, int top, int left);
 
  private:
   // Draws a rectangle on the image as described in the annotation.

@@ -173,7 +173,7 @@ REGISTER_CALCULATOR(HandGestureRecognitionCalculator);
     else
     {
         recognized_hand_gesture = new std::string("___");
-        LOG(INFO) << "Finger States: " << thumbIsOpen << firstFingerIsOpen << secondFingerIsOpen << thirdFingerIsOpen << fourthFingerIsOpen;       
+        // LOG(INFO) << "Finger States: " << thumbIsOpen << firstFingerIsOpen << secondFingerIsOpen << thirdFingerIsOpen << fourthFingerIsOpen;       
     }
     // LOG(INFO) << recognized_hand_gesture;
 

@@ -509,10 +509,8 @@ void AnnotationRenderer::DrawText(const RenderAnnotation& annotation) {
               /*bottomLeftOrigin=*/flip_text_vertically_);
 }
 
-void AnnotationRenderer::DrawText(std::string text)
+void AnnotationRenderer::DrawText(std::string text, int top, int left)
 {
-  const int left = 275;
-  const int top = 50;
   const cv::Point origin(left, top);
   const int font_size = 35;
   const int thickness = 5;

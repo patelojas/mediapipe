@@ -47,6 +47,9 @@ constexpr char kInputVectorTag[] = "VECTOR";
 constexpr char kInputFrameTagGpu[] = "INPUT_FRAME_GPU";
 constexpr char kOutputFrameTagGpu[] = "OUTPUT_FRAME_GPU";
 constexpr char recognizedHandGestureTag[] = "RECOGNIZED_HAND_GESTURE";
+constexpr char recognizedHandMouvementScrollingTag[] = "RECOGNIZED_HAND_MOUVEMENT_SCROLLING";
+constexpr char recognizedHandMouvementZoomingTag[] = "RECOGNIZED_HAND_MOUVEMENT_ZOOMING";
+constexpr char recognizedHandMouvementSlidingTag[] = "RECOGNIZED_HAND_MOUVEMENT_SLIDING";
 
 enum { ATTRIB_VERTEX, ATTRIB_TEXTURE_POSITION, NUM_ATTRIBUTES };
 
@@ -169,6 +172,15 @@ REGISTER_CALCULATOR(AnnotationOverlayCalculator);
 
   RET_CHECK(cc->Inputs().HasTag(recognizedHandGestureTag));
   cc->Inputs().Tag(recognizedHandGestureTag).Set<std::string>();
+
+  RET_CHECK(cc->Inputs().HasTag(recognizedHandMouvementScrollingTag));
+  cc->Inputs().Tag(recognizedHandMouvementScrollingTag).Set<std::string>();
+
+  RET_CHECK(cc->Inputs().HasTag(recognizedHandMouvementZoomingTag));
+  cc->Inputs().Tag(recognizedHandMouvementZoomingTag).Set<std::string>();
+
+  RET_CHECK(cc->Inputs().HasTag(recognizedHandMouvementSlidingTag));
+  cc->Inputs().Tag(recognizedHandMouvementSlidingTag).Set<std::string>();
 
   CHECK_GE(cc->Inputs().NumEntries(), 1);
 
@@ -323,7 +335,16 @@ REGISTER_CALCULATOR(AnnotationOverlayCalculator);
   }
 
   const auto &recognizedHandGesture = cc->Inputs().Tag(recognizedHandGestureTag).Get<std::string>();
-  renderer_->DrawText(recognizedHandGesture);
+  renderer_->DrawText(recognizedHandGesture, 50, 50);
+
+  const auto &recognizedHandMouvementScrolling = cc->Inputs().Tag(recognizedHandMouvementScrollingTag).Get<std::string>();
+  renderer_->DrawText(recognizedHandMouvementScrolling, 120, 50);
+
+  const auto &recognizedHandMouvementZooming = cc->Inputs().Tag(recognizedHandMouvementZoomingTag).Get<std::string>();
+  renderer_->DrawText(recognizedHandMouvementZooming, 190, 50);
+
+  const auto &recognizedHandMouvementSliding = cc->Inputs().Tag(recognizedHandMouvementSlidingTag).Get<std::string>();
+  renderer_->DrawText(recognizedHandMouvementSliding, 260, 50);
 
   if (use_gpu_) {
 #if !defined(MEDIAPIPE_DISABLE_GPU)

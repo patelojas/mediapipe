@@ -7,6 +7,9 @@ input_stream: "DETECTIONS:detections"
 input_stream: "LANDMARKS:landmarks"
 input_stream: "NORM_RECT:rect"
 input_stream: "RECOGNIZED_HAND_GESTURE:recognized_hand_gesture"
+input_stream: "RECOGNIZED_HAND_MOUVEMENT_SCROLLING:recognized_hand_mouvement_scrolling"
+input_stream: "RECOGNIZED_HAND_MOUVEMENT_ZOOMING:recognized_hand_mouvement_zooming"
+input_stream: "RECOGNIZED_HAND_MOUVEMENT_SLIDING:recognized_hand_mouvement_sliding"
 output_stream: "IMAGE:output_image"
 
 # Converts detections to drawing primitives for annotation overlay.
@@ -100,5 +103,8 @@ node {
   input_stream: "landmark_render_data"
   input_stream: "rect_render_data"
   input_stream: "RECOGNIZED_HAND_GESTURE:recognized_hand_gesture"
+  input_stream: "RECOGNIZED_HAND_MOUVEMENT_SCROLLING:recognized_hand_mouvement_scrolling"
+  input_stream: "RECOGNIZED_HAND_MOUVEMENT_ZOOMING:recognized_hand_mouvement_zooming"
+  input_stream: "RECOGNIZED_HAND_MOUVEMENT_SLIDING:recognized_hand_mouvement_sliding"
   output_stream: "OUTPUT_FRAME_GPU:output_image"
 }
