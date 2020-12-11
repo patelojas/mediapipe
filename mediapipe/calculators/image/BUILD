@@ -332,6 +332,7 @@ cc_library(
 cc_library(
     name = "image_cropping_calculator",
     srcs = ["image_cropping_calculator.cc"],
+    hdrs = ["image_cropping_calculator.h"],
     copts = select({
         "//mediapipe:apple": [
             "-x objective-c++",

@@ -393,7 +393,6 @@ void ImageCroppingCalculator::GlRender() {
   #if __VERSION__ < 130
     #define in varying
   #endif  // __VERSION__ < 130
-
   #ifdef GL_ES
     #define fragColor gl_FragColor
     precision highp float;
@@ -404,10 +403,8 @@ void ImageCroppingCalculator::GlRender() {
     #define texture2D texture
     out vec4 fragColor;
   #endif  // defined(GL_ES)
-
     in vec2 sample_coordinate;
     uniform sampler2D input_frame;
-
     void main() {
       vec4 pix = texture2D(input_frame, sample_coordinate);
       fragColor = pix;

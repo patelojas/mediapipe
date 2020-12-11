@@ -482,32 +482,32 @@ void AnnotationRenderer::DrawGradientLine(const RenderAnnotation& annotation) {
   cv_line2(mat_image_, start, end, color1, color2, thickness);
 }
 
-void AnnotationRenderer::DrawText(const RenderAnnotation& annotation) {
-  int left = -1;
-  int baseline = -1;
-  int font_size = -1;
+// void AnnotationRenderer::DrawText(const RenderAnnotation& annotation) {
+//   int left = -1;
+//   int baseline = -1;
+//   int font_size = -1;
 
-  const auto& text = annotation.text();
-  if (text.normalized()) {
-    CHECK(NormalizedtoPixelCoordinates(text.left(), text.baseline(),
-                                       image_width_, image_height_, &left,
-                                       &baseline));
-    font_size = static_cast<int>(round(text.font_height() * image_height_));
-  } else {
-    left = static_cast<int>(text.left());
-    baseline = static_cast<int>(text.baseline());
-    font_size = static_cast<int>(text.font_height());
-  }
-  cv::Point origin(left, baseline);
-  const cv::Scalar color = MediapipeColorToOpenCVColor(annotation.color());
-  const int thickness = annotation.thickness();
-  const int font_face = text.font_face();
+//   const auto& text = annotation.text();
+//   if (text.normalized()) {
+//     CHECK(NormalizedtoPixelCoordinates(text.left(), text.baseline(),
+//                                        image_width_, image_height_, &left,
+//                                        &baseline));
+//     font_size = static_cast<int>(round(text.font_height() * image_height_));
+//   } else {
+//     left = static_cast<int>(text.left());
+//     baseline = static_cast<int>(text.baseline());
+//     font_size = static_cast<int>(text.font_height());
+//   }
+//   cv::Point origin(left, baseline);
+//   const cv::Scalar color = MediapipeColorToOpenCVColor(annotation.color());
+//   const int thickness = annotation.thickness();
+//   const int font_face = text.font_face();
 
-  const double font_scale = ComputeFontScale(font_face, font_size, thickness);
-  cv::putText(mat_image_, text.display_text(), origin, font_face, font_scale,
-              color, thickness, /*lineType=*/8,
-              /*bottomLeftOrigin=*/flip_text_vertically_);
-}
+//   const double font_scale = ComputeFontScale(font_face, font_size, thickness);
+//   cv::putText(mat_image_, text.display_text(), origin, font_face, font_scale,
+//               color, thickness, /*lineType=*/8,
+//               /*bottomLeftOrigin=*/flip_text_vertically_);
+// }
 
 void AnnotationRenderer::DrawText(std::string text)
 {
@@ -521,6 +521,45 @@ void AnnotationRenderer::DrawText(std::string text)
 
   const double font_scale = ComputeFontScale(font_face, font_size, thickness);
   cv::putText(mat_image_, text, origin, font_face, font_scale, color, thickness);
+}
+
+void AnnotationRenderer::DrawText(const RenderAnnotation& annotation) {
+  int left = -1;
+  int baseline = -1;
+  int font_size = -1;
+
+  const auto& text = annotation.text();
+  if (text.normalized()) {
+    CHECK(NormalizedtoPixelCoordinates(text.left(), text.baseline(),
+                                       image_width_, image_height_, &left,
+                                       &baseline));
+    font_size = static_cast<int>(round(text.font_height() * image_height_));
+  } else {
+    left = static_cast<int>(text.left() * 1.0f);
+    baseline = static_cast<int>(text.baseline() * 1.0f);
+    font_size = static_cast<int>(text.font_height() * 1.0f);
+  }
+
+  cv::Point origin(left, baseline);
+  const cv::Scalar color = MediapipeColorToOpenCVColor(annotation.color());
+  const int thickness = round(annotation.thickness() * 1.0f);
+  const int font_face = text.font_face();
+
+  const double font_scale = ComputeFontScale(font_face, font_size, thickness);
+  int text_baseline = 0;
+  cv::Size text_size = cv::getTextSize(text.display_text(), font_face,
+                                       font_scale, thickness, &text_baseline);
+
+  // if (text.center_horizontally()) {
+  //   origin.x -= text_size.width / 2;
+  // }
+  // if (text.center_vertically()) {
+  //   origin.y += text_size.height / 2;
+  // }
+
+  cv::putText(mat_image_, text.display_text(), origin, font_face, font_scale,
+              color, thickness, /*lineType=*/8,
+              /*bottomLeftOrigin=*/flip_text_vertically_);
 }
 
 double AnnotationRenderer::ComputeFontScale(int font_face, int font_size,

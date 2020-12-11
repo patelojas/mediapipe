@@ -10,8 +10,6 @@ http_archive(
     sha256 = "2ef429f5d7ce7111263289644d233707dba35e39696377ebab8b0bc701f7818e",
 )
 load("@bazel_skylib//lib:versions.bzl", "versions")
-versions.check(minimum_bazel_version = "0.24.1",
-               maximum_bazel_version = "1.2.1")
 
 
 # ABSL cpp library lts_2019_08_08.
@@ -204,67 +202,54 @@ http_archive(
     url = "https://github.com/bazelbuild/rules_jvm_external/archive/%s.zip" % RULES_JVM_EXTERNAL_TAG,
 )
 
+# Maven dependencies.
+
+RULES_JVM_EXTERNAL_TAG = "3.2"
+RULES_JVM_EXTERNAL_SHA = "82262ff4223c5fda6fb7ff8bd63db8131b51b413d26eb49e3131037e79e324af"
+
+http_archive(
+    name = "rules_jvm_external",
+    strip_prefix = "rules_jvm_external-%s" % RULES_JVM_EXTERNAL_TAG,
+    sha256 = RULES_JVM_EXTERNAL_SHA,
+    url = "https://github.com/bazelbuild/rules_jvm_external/archive/%s.zip" % RULES_JVM_EXTERNAL_TAG,
+)
+
 load("@rules_jvm_external//:defs.bzl", "maven_install")
 
+# Important: there can only be one maven_install rule. Add new maven deps here.
 maven_install(
+    name = "maven",
     artifacts = [
+        "androidx.concurrent:concurrent-futures:1.0.0-alpha03",
+        "androidx.lifecycle:lifecycle-common:2.2.0",
         "androidx.annotation:annotation:aar:1.1.0",
         "androidx.appcompat:appcompat:aar:1.1.0-rc01",
-        "androidx.camera:camera-core:aar:1.0.0-alpha06",
-        "androidx.camera:camera-camera2:aar:1.0.0-alpha06",
+        "androidx.camera:camera-core:1.0.0-beta10",
+        "androidx.camera:camera-camera2:1.0.0-beta10",
+        "androidx.camera:camera-lifecycle:1.0.0-beta10",
         "androidx.constraintlayout:constraintlayout:aar:1.1.3",
         "androidx.core:core:aar:1.1.0-rc03",
         "androidx.legacy:legacy-support-v4:aar:1.0.0",
         "androidx.recyclerview:recyclerview:aar:1.1.0-beta02",
+        "androidx.test.espresso:espresso-core:3.1.1",
+        "com.github.bumptech.glide:glide:4.11.0",
         "com.google.android.material:material:aar:1.0.0-rc01",
+        "com.google.code.findbugs:jsr305:3.0.2",
+        "com.google.flogger:flogger-system-backend:0.3.1",
+        "com.google.flogger:flogger:0.3.1",
+        "com.google.guava:guava:27.0.1-android",
+        "com.google.guava:listenablefuture:1.0",
+        "junit:junit:4.12",
+        "org.hamcrest:hamcrest-library:1.3",
     ],
     repositories = [
+        "https://jcenter.bintray.com",
+        "https://maven.google.com",
         "https://dl.google.com/dl/android/maven2",
         "https://repo1.maven.org/maven2",
     ],
-)
-
-maven_server(
-    name = "google_server",
-    url = "https://dl.google.com/dl/android/maven2",
-)
-
-maven_jar(
-    name = "androidx_lifecycle",
-    artifact = "androidx.lifecycle:lifecycle-common:2.0.0",
-    sha1 = "e070ffae07452331bc5684734fce6831d531785c",
-    server = "google_server",
-)
-
-maven_jar(
-    name = "androidx_concurrent_futures",
-    artifact = "androidx.concurrent:concurrent-futures:1.0.0-alpha03",
-    sha1 = "b528df95c7e2fefa2210c0c742bf3e491c1818ae",
-    server = "google_server",
-)
-
-maven_jar(
-    name = "com_google_guava_android",
-    artifact = "com.google.guava:guava:27.0.1-android",
-    sha1 = "b7e1c37f66ef193796ccd7ea6e80c2b05426182d",
-)
-
-maven_jar(
-    name = "com_google_common_flogger",
-    artifact = "com.google.flogger:flogger:0.3.1",
-    sha1 = "585030fe1ec709760cbef997a459729fb965df0e",
-)
-
-maven_jar(
-    name = "com_google_common_flogger_system_backend",
-    artifact = "com.google.flogger:flogger-system-backend:0.3.1",
-    sha1 = "287b569d76abcd82f9de87fe41829fbc7ebd8ac9",
-)
-
-maven_jar(
-    name = "com_google_code_findbugs",
-    artifact = "com.google.code.findbugs:jsr305:3.0.2",
-    sha1 = "25ea2e8b0c338a877313bd4672d3fe056ea78f0d",
+    fetch_sources = True,
+    version_conflict_policy = "pinned",
 )
 
 # You may run setup_android.sh to install Android SDK and NDK.
