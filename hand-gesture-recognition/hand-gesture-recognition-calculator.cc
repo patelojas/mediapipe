@@ -3,6 +3,10 @@
 #include "mediapipe/framework/formats/landmark.pb.h"
 #include "mediapipe/framework/formats/rect.pb.h"
 
+#include <iostream>
+#include <string>
+#include <iterator>
+
 namespace mediapipe
 {
 
@@ -133,18 +137,22 @@ REGISTER_CALCULATOR(HandGestureRecognitionCalculator);
     if (thumbIsOpen && firstFingerIsOpen && secondFingerIsOpen && thirdFingerIsOpen && fourthFingerIsOpen)
     {
         recognized_hand_gesture = new std::string("FIVE");
+        // LOG(INFO) << *recognized_hand_gesture;
     }
     else if (!thumbIsOpen && firstFingerIsOpen && secondFingerIsOpen && thirdFingerIsOpen && fourthFingerIsOpen)
     {
         recognized_hand_gesture = new std::string("FOUR");
+        // LOG(INFO) << *recognized_hand_gesture;
     }
     else if (thumbIsOpen && firstFingerIsOpen && secondFingerIsOpen && !thirdFingerIsOpen && !fourthFingerIsOpen)
     {
         recognized_hand_gesture = new std::string("TREE");
+        // LOG(INFO) << *recognized_hand_gesture;
     }
     else if (thumbIsOpen && firstFingerIsOpen && !secondFingerIsOpen && !thirdFingerIsOpen && !fourthFingerIsOpen)
     {
         recognized_hand_gesture = new std::string("TWO");
+        // LOG(INFO) << *recognized_hand_gesture;
     }
     else if (!thumbIsOpen && firstFingerIsOpen && !secondFingerIsOpen && !thirdFingerIsOpen && !fourthFingerIsOpen)
     {
@@ -175,7 +183,9 @@ REGISTER_CALCULATOR(HandGestureRecognitionCalculator);
         recognized_hand_gesture = new std::string("___");
         LOG(INFO) << "Finger States: " << thumbIsOpen << firstFingerIsOpen << secondFingerIsOpen << thirdFingerIsOpen << fourthFingerIsOpen;       
     }
-    // LOG(INFO) << recognized_hand_gesture;
+    LOG(INFO) << *recognized_hand_gesture;
+    //cout << recognized_hand_gesture;
+    //printf("%s", recognized_hand_gesture.c_str());
 
     cc->Outputs()
         .Tag(recognizedHandGestureTag)

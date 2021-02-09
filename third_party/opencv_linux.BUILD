@@ -18,6 +18,7 @@ cc_library(
             "local/lib/libopencv_calib3d.so",
             "local/lib/libopencv_features2d.so",
             "local/lib/libopencv_optflow.so*",
+            "local/lib/libopencv_optflow.so*",
             "local/lib/libopencv_highgui.so",
             "local/lib/libopencv_imgcodecs.so",
             "local/lib/libopencv_imgproc.so",
